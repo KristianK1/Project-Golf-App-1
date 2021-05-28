@@ -29,7 +29,7 @@ public class SettingsFragment extends Fragment {
     public String saved_history;
     private AdapterView history_spinner;
     ArrayAdapter<String> adapter_history;
-
+//
     private TextView logout;
     private TextView ignore_messages;
     private logout logout_interface;
@@ -41,7 +41,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        String bezveeze="bbbb";
     }
 
     @Override
