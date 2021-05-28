@@ -27,6 +27,7 @@
         android:textAllCaps="false"
         android:textColor="#000000"
         android:background="#D0D0D0"
+        android:onClick="refresh_map"
         />
 
     <Button
@@ -41,6 +42,7 @@
         android:textAllCaps="false"
         android:textColor="#000000"
         android:background="#D0D0D0"
+        android:onClick="Open_settings"
         />
 
 </RelativeLayout>

@@ -10,20 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MapFragment extends Fragment {
     public SupportMapFragment supportMapFragment;
     public GoogleMap googleMappp;
-
 
     // TODO: Rename and change types and number of parameters
 
@@ -61,4 +57,6 @@ public class MapFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
+
 }

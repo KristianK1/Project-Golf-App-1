@@ -12,16 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Login#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Login extends Fragment {
-    ChangeScreen change;
+    EditText username_et, password_et;
     Button login_bt;
-    ChangeScreen ch_screen;
+
+    Login_interface ch_screen;
 
    /* @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +37,10 @@ public class Login extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        login_bt= getView().findViewById(R.id.login_button);
+
+        login_bt = getView().findViewById(R.id.login_button);
+        username_et = getView().findViewById(R.id.et_login_username);
+        password_et = getView().findViewById(R.id.et_login_pass);
         setUpListeners();
     }
 
@@ -48,16 +48,15 @@ public class Login extends Fragment {
         login_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ch_screen.click(1);
+                ch_screen.login(username_et.getText().toString(), password_et.getText().toString());
             }
         });
     }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ChangeScreen) {
-            this.ch_screen = (ChangeScreen) context;
+        if (context instanceof Login_interface) {
+            this.ch_screen = (Login_interface) context;
         }
     }
     @Override
