@@ -35,7 +35,7 @@
         android:textSize="30dp"
         android:layout_below="@id/history_selector_tw"
 />
-    <TextView
+    <!--<TextView
         android:id="@+id/bluetooth_tw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:text="Ignore messsages"
         android:textSize="30dp"
         android:layout_below="@id/logout_tw"
-        />
+        /> -->
 
     <Button
         android:layout_width="match_parent"

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BluetoothFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/device_status_fixed_tw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Device status"
+        android:textSize="30dp"
+        android:layout_margin="12dp"
+        />
+    <TextView
+        android:id="@+id/device_status_tw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Default text"
+        android:textColor="#0000FF"
+        android:textSize="40dp"
+        android:layout_margin="12dp"
+        android:layout_below="@id/device_status_fixed_tw"
+        />
+    <TextView
+        android:id="@+id/ignore_fixed_tw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ignore"
+        android:textSize="30dp"
+        android:layout_margin="12dp"
+        android:layout_below="@id/device_status_tw"
+        />
+    <TextView
+        android:id="@+id/ignore_tw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IDK"
+        android:textColor="#0000FF"
+        android:textSize="30dp"
+        android:layout_margin="12dp"
+        android:layout_below="@id/device_status_tw"
+        android:layout_toRightOf="@id/ignore_fixed_tw"
+        />
+    <FrameLayout
+        android:id="@+id/bt_buttons_frame"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="12dp"
+        android:layout_below="@id/ignore_fixed_tw"
+        />
+
+</RelativeLayout>

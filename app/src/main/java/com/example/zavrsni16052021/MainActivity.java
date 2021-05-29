@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
     private Login Loginfragment;
     private MapFragment Mapfragment;
     private SettingsFragment Settingsfragment;
+    private BluetoothFragment Bluetoothfragment;
 
     private FragmentManager Fragmentmanager;
     private int screen=0;
@@ -60,15 +61,12 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         all_creds.add(new Creds("admin", "RRJKZ"));
         all_creds.add(new Creds("user", "Motobecane2"));
 
+
         setContentView(R.layout.activity_main);
         Fragmentmanager = getSupportFragmentManager();
         data_handler= new Thingspeak_data();
         setUpFragments();
-
-        Log.i("bogaoca", "jedan");
         Load_settings();
-
-        Log.i("bogaoca", "dva");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -84,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         else if(screen==2){
             fragmentTransaction.replace(R.id.frame_layout, Settingsfragment);
         }
+        else if(screen==3){
+            fragmentTransaction.replace(R.id.frame_layout, Bluetoothfragment);
+        }
         fragmentTransaction.commit();
     }
 
@@ -92,14 +93,13 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         if(screen==0) Loginfragment = (Login) recreateFragment(Loginfragment);
         if(screen==1) Mapfragment = (MapFragment) recreateFragment(Mapfragment);
         if(screen==2) Settingsfragment = (SettingsFragment) recreateFragment(Settingsfragment);
+        if(screen==3) Bluetoothfragment = (BluetoothFragment) recreateFragment(Bluetoothfragment);
     }
 
 
     private Fragment recreateFragment(Fragment f){
         try {
-            //Fragment.SavedState savedState = Fragmentmanager.saveFragmentInstanceState(f);
             Fragment newInstance = f.getClass().newInstance();
-            //newInstance.setInitialSavedState(savedState);
             return newInstance;
         }
         catch (Exception e) {
@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         Loginfragment = new Login();
         Mapfragment = new MapFragment();
         Settingsfragment = new SettingsFragment();
+        Bluetoothfragment = new BluetoothFragment();
         FragmentTransaction fragmentTransaction = Fragmentmanager.beginTransaction();
-
 
         SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String saved_username = sharedPreferencessss.getString("username", null);
@@ -220,6 +220,13 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void OpenBT(android.view.View v){
+        screen=3;
+        switchFragments();
+
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override

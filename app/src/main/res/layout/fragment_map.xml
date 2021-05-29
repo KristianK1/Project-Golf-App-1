@@ -14,35 +14,58 @@
         android:layout_above="@id/refresh_button"
         />
 
-    <Button
+    <ImageButton
         android:id="@+id/refresh_button"
-        android:layout_width="match_parent"
-        android:layout_toLeftOf="@+id/settings_button"
-        android:layout_height="65dp"
+        android:src="@mipmap/refresh_icon_foreground"
+        android:scaleType="centerInside"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="10px"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="10px"
         android:text="Refresh"
         android:textSize="28dp"
         android:textAllCaps="false"
-        android:textColor="#000000"
-        android:background="#D0D0D0"
+        android:textColor="#ffffff"
         android:onClick="refresh_map"
+        android:background="@drawable/curved_button_center"
+        android:backgroundTint="@null"
+        android:backgroundTintMode="@null"
         />
-
-    <Button
+    <ImageButton
         android:id="@+id/settings_button"
-        android:layout_width="wrap_content"
-        android:layout_height="65dp"
+        android:src="@mipmap/settings_icon_foreground"
+        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/refresh_button"
+        android:layout_margin="10px"
+        android:text="Settings"
+        android:textSize="28dp"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:onClick="Open_settings"
+        android:background="@drawable/curved_button_right"
+        android:backgroundTint="@null"
+        />
+    <ImageButton
+        android:id="@+id/bluetooth_button"
+        android:src="@mipmap/bluetooth_icon_foreground"
+        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/refresh_button"
         android:layout_margin="10px"
         android:text="Settings"
         android:textSize="28dp"
         android:textAllCaps="false"
         android:textColor="#000000"
-        android:background="#D0D0D0"
-        android:onClick="Open_settings"
+        android:onClick="OpenBT"
+        android:background="@drawable/curved_button_left"
+        android:backgroundTint="@null"
         />
+
 
 </RelativeLayout>

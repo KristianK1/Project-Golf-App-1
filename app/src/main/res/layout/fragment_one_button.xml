@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".oneButton">
+
+    <Button
+        android:id="@+id/one_button_bt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Default"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:background="@drawable/rounded_button"
+        app:backgroundTint="#00000000"
+        android:alpha="1"
+        />
+
+</FrameLayout>
