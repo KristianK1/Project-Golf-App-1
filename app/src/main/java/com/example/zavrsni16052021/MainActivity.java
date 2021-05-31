@@ -39,6 +39,8 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity implements Login_interface, logout, ignore_click {
     private List<Creds> all_creds;
 
+    private int device_status_var=0, ignore_status_var=0;
+
     private Login Loginfragment;
     private MapFragment Mapfragment;
     private SettingsFragment Settingsfragment;
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         all_creds.add(new Creds("sviki", "Lenovo7"));
         all_creds.add(new Creds("admin", "RRJKZ"));
         all_creds.add(new Creds("user", "Motobecane2"));
-
 
         setContentView(R.layout.activity_main);
         Fragmentmanager = getSupportFragmentManager();
@@ -93,9 +94,11 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         if(screen==0) Loginfragment = (Login) recreateFragment(Loginfragment);
         if(screen==1) Mapfragment = (MapFragment) recreateFragment(Mapfragment);
         if(screen==2) Settingsfragment = (SettingsFragment) recreateFragment(Settingsfragment);
-        if(screen==3) Bluetoothfragment = (BluetoothFragment) recreateFragment(Bluetoothfragment);
-    }
+        if(screen==3) {
+            Bluetoothfragment = (BluetoothFragment) recreateFragment(Bluetoothfragment);
+        }
 
+    }
 
     private Fragment recreateFragment(Fragment f){
         try {
@@ -180,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-
     public void Save_settings(android.view.View v){
         String new_history=Settingsfragment.getSelectedHistory();
         if(new_history!=null) {
@@ -196,15 +198,11 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
     }
 
     public void Load_settings(){
-        Log.i("bogaoca", "1.1");
         SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        Log.i("bogaoca", "1.2");
         String saved_history = sharedPreferencessss.getString("history_settings", null);
 
-        Log.i("bogaoca", "1.3");
         if(saved_history!=null){
-            Log.i("bogaoca", "1.4");
             data_handler.change_history_minutes(History_str_to_int(saved_history));
         }
     }
@@ -224,14 +222,13 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
     public void OpenBT(android.view.View v){
         screen=3;
         switchFragments();
-
+        Bluetoothfragment.setStates(device_status_var, ignore_status_var);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void logoutt() {
-        Log.i("logout","11");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -239,64 +236,18 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         editor.putString("password", "");
         editor.apply();
         screen=0;
-        Log.i("logout","1");
         switchFragments();
-        Log.i("logout","2");
     }
 
     private OutputStream outputStream;
     private InputStream inStream;
 
-    @Override
-    public void ignore_mess(int min) {
-        Log.i("bt","main");
-        String bt_adresa;
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
-            Log.i("bt", "error: bluetooth not supported");
-            return;
-        }
 
-        Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(enableBluetoothIntent, 0);
-        Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
-
-        Log.i("bt", "DSFDSFDAAAAAAAAAAAAAAAAADGFFFFFFFFFFFFFFFFF");
-        Object[] devices = (Object []) bondedDevices.toArray();
-        for(int i=0;i<bondedDevices.size();i++) {
-            BluetoothDevice device = (BluetoothDevice) devices[i];
-            Log.i("bt","device name: "+device.getName());
-            Log.i("bt","device adress: "+device.getAddress());
-
-            ParcelUuid[] uuids = device.getUuids();
-            try{
-                BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
-                socket.connect();
-
-                Log.i("bt", "boga");
-                outputStream = socket.getOutputStream();
-                inStream = socket.getInputStream();
-                //inStream.
-                String message="Ignore_messages_for_"+min+"_minutes\n";
-                outputStream.write(message.getBytes());
-                long time1=current_miliseconds();
-                while(current_miliseconds()-time1<5000);
-                    Log.i("bt", String.valueOf(inStream.read()));
-
-                //Toast.makeText(getApplicationContext(), "Bluetooth communication is finished succesfully",Toast.LENGTH_LONG);
-            }
-            catch (Exception e){
-                Log.i("bt", "exception");
-                Toast.makeText(getApplicationContext(), "Bluetooth communication failed",Toast.LENGTH_LONG);
-
-            }
-        }
-    }
     private long current_miliseconds(){
         Calendar rightNow = Calendar.getInstance();
         long offset = rightNow.get(Calendar.ZONE_OFFSET) +  rightNow.get(Calendar.DST_OFFSET);
         long sinceMidnight = (rightNow.getTimeInMillis() + offset) %  (24 * 60 * 60 * 1000);
-        return  sinceMidnight;
+        return  sinceMidnight; //zasto since mindnight samo??????
     }
 
     public int History_str_to_int(String history){
@@ -329,5 +280,133 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                 return 43200;
         }
         return -1;
+    }
+
+    @Override
+    public void ignore_mess(int code, int minutes) {
+        Log.i("tipke_switch","main4");
+
+        if(code==0 && minutes==0){//connect
+            if(Bluetoothfragment.getDevice_status_var()>=0){ //nebitno
+
+                String reply=BTsend("T?");
+                if(reply.contains("T=111")) {
+
+                    Log.i("tipke_switch","main21");
+                    device_status_var = 1;
+                    Bluetoothfragment.set_device_status(1);
+                    ignore_status_var=0;
+                    Bluetoothfragment.set_ignore_status(0);
+                }
+                else if(reply.contains("T=222")) {
+
+                    Log.i("tipke_switch","main22");
+                    device_status_var = 1;
+                    ignore_status_var=1;
+                    Bluetoothfragment.set_ignore_status(1);
+                }
+                else{
+                    Log.i("tipke_switch", "nema uredaja");
+                    device_status_var = 0;
+                    Bluetoothfragment.set_device_status(0);
+
+                    ignore_status_var=0;
+                    Bluetoothfragment.set_ignore_status(0);
+                }
+            }
+        }
+        else if(code==0 && minutes>0){
+            if(Bluetoothfragment.getDevice_status_var()==1){
+                String mess="T=222,";
+
+                if(minutes<10) mess+="00"+Integer.toString(minutes);
+                else if(minutes>=10 && minutes<100) mess+="0"+Integer.toString(minutes);
+                else if(minutes>=100 && minutes<1000) mess+=Integer.toString(minutes);
+                Log.i("tipke_switch", "poruka=" +mess);
+                String reply=BTsend(mess);
+
+                if(reply.contains("T=222")) {
+                    device_status_var = 1;
+
+                    ignore_status_var=1;
+                    Bluetoothfragment.set_ignore_status(1);
+                }
+                else {
+                    Log.i("inputBT", "nema uredaja");
+                    device_status_var = 0;
+                    Bluetoothfragment.set_device_status(0);
+
+                    ignore_status_var=0;
+                }
+            }
+        }
+        else if(code==1){
+                String reply=BTsend("T=111");
+                if(reply.contains("T=111")) {
+                    device_status_var = 1;
+                    Bluetoothfragment.set_device_status(1);
+                    ignore_status_var=0;
+                    Bluetoothfragment.set_ignore_status(0);
+                }
+                else{
+                    Log.i("inputBT", "nema uredaja");
+                    device_status_var = 0;
+                    Bluetoothfragment.set_device_status(0);
+
+                    ignore_status_var=0;
+                }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void nazad_od_bta(View v){
+        screen=1;
+        switchFragments();
+        device_status_var=Bluetoothfragment.getDevice_status_var();
+        ignore_status_var=Bluetoothfragment.getIgnore_status_var();
+    }
+
+    public String BTsend(String send){
+        String bt_adresa;
+        Log.i("inputBT", "start");
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null) {
+            Log.i("bt", "error: bluetooth not supported");
+            return "X";
+        }
+
+        Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBluetoothIntent, 0);
+        Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
+
+        Object[] devices = (Object []) bondedDevices.toArray();
+        for(int i=0;i<bondedDevices.size();i++) {
+            BluetoothDevice device = (BluetoothDevice) devices[i];
+            Log.i("bt","device name: "+device.getName());
+            Log.i("bt","device adress: "+device.getAddress());
+            ParcelUuid[] uuids = device.getUuids();
+            try{
+                BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+                Log.i("bt", "errordfdf");
+                socket.connect();
+                Log.i("bt", "errordf");
+                outputStream = socket.getOutputStream();
+                inStream = socket.getInputStream();
+                outputStream.write(send.getBytes());
+                long time1=current_miliseconds();
+                while(current_miliseconds()-time1<3000);  //PONOC SHITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+                String reply="";
+                while(inStream.available()>0) reply+=(char)inStream.read();
+                Log.i("inputBT", reply);
+                socket.close();
+                return reply;
+            }
+            catch (Exception e){
+                Log.i("bt", "exception");
+                Toast.makeText(getApplicationContext(), "Bluetooth communication failed",Toast.LENGTH_LONG);
+                return "X";
+            }
+        }
+        return "E";
     }
 }

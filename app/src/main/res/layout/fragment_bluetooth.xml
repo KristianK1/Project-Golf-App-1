@@ -52,5 +52,11 @@
         android:layout_margin="12dp"
         android:layout_below="@id/ignore_fixed_tw"
         />
-
+    <Button
+        android:layout_below="@id/bt_buttons_frame"
+        android:onClick="nazad_od_bta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="back"
+/>
 </RelativeLayout>
