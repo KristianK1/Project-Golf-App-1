@@ -40,7 +40,6 @@ public class Thingspeak_data {
         catch (Exception e){
             //sta da mu ja radim
         }
-        Log.i("json", stranica);
         return JSON_interpreter(stranica);
     }
 
@@ -57,7 +56,6 @@ public class Thingspeak_data {
             JSONArray field1Array = reader.getJSONArray("feeds");
             for(int i=499;i>=0;i--){
                 JSONObject entry=field1Array.getJSONObject(i);
-                Log.i("json", entry.getString("field1"));
                 String locc_data=entry.getString("field1");
                 String time_data=entry.getString("created_at");
 
@@ -77,11 +75,9 @@ public class Thingspeak_data {
 
         }
         catch(Exception e){
-            Log.i("json","exception");
         }
 
         for(int i=0;i<list.size();i++){
-            Log.i("json","|"+list.get(i).getX()+"|"+list.get(i).getY()+"|"+i);
         }
         return list;
     }

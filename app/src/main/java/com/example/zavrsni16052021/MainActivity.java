@@ -284,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
     @Override
     public void ignore_mess(int code, int minutes) {
-        Log.i("tipke_switch","main4");
 
         if(code==0 && minutes==0){//connect
             if(Bluetoothfragment.getDevice_status_var()>=0){ //nebitno
@@ -292,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                 String reply=BTsend("T?");
                 if(reply.contains("T=111")) {
 
-                    Log.i("tipke_switch","main21");
                     device_status_var = 1;
                     Bluetoothfragment.set_device_status(1);
                     ignore_status_var=0;
@@ -300,13 +298,11 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                 }
                 else if(reply.contains("T=222")) {
 
-                    Log.i("tipke_switch","main22");
                     device_status_var = 1;
                     ignore_status_var=1;
                     Bluetoothfragment.set_ignore_status(1);
                 }
                 else{
-                    Log.i("tipke_switch", "nema uredaja");
                     device_status_var = 0;
                     Bluetoothfragment.set_device_status(0);
 
@@ -322,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                 if(minutes<10) mess+="00"+Integer.toString(minutes);
                 else if(minutes>=10 && minutes<100) mess+="0"+Integer.toString(minutes);
                 else if(minutes>=100 && minutes<1000) mess+=Integer.toString(minutes);
-                Log.i("tipke_switch", "poruka=" +mess);
                 String reply=BTsend(mess);
 
                 if(reply.contains("T=222")) {
@@ -332,7 +327,6 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                     Bluetoothfragment.set_ignore_status(1);
                 }
                 else {
-                    Log.i("inputBT", "nema uredaja");
                     device_status_var = 0;
                     Bluetoothfragment.set_device_status(0);
 
@@ -349,7 +343,6 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                     Bluetoothfragment.set_ignore_status(0);
                 }
                 else{
-                    Log.i("inputBT", "nema uredaja");
                     device_status_var = 0;
                     Bluetoothfragment.set_device_status(0);
 
@@ -368,10 +361,8 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
     public String BTsend(String send){
         String bt_adresa;
-        Log.i("inputBT", "start");
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
-            Log.i("bt", "error: bluetooth not supported");
             return "X";
         }
 
@@ -387,22 +378,18 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             ParcelUuid[] uuids = device.getUuids();
             try{
                 BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
-                Log.i("bt", "errordfdf");
                 socket.connect();
-                Log.i("bt", "errordf");
                 outputStream = socket.getOutputStream();
                 inStream = socket.getInputStream();
                 outputStream.write(send.getBytes());
                 long time1=current_miliseconds();
-                while(current_miliseconds()-time1<3000);  //PONOC SHITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+                while(current_miliseconds()-time1<3000);  //PONOC fix this
                 String reply="";
                 while(inStream.available()>0) reply+=(char)inStream.read();
-                Log.i("inputBT", reply);
                 socket.close();
                 return reply;
             }
             catch (Exception e){
-                Log.i("bt", "exception");
                 Toast.makeText(getApplicationContext(), "Bluetooth communication failed",Toast.LENGTH_LONG);
                 return "X";
             }

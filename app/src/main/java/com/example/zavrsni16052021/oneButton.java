@@ -37,13 +37,11 @@ public class oneButton extends Fragment {
         super.onAttach(context);
         if (context instanceof ignore_click) {
             this.Click = (ignore_click) context;
-            Log.i("btt", "attached");
         }
     }
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.i("btt", "detached");
         this.Click = null;
     }
     @Override
@@ -61,14 +59,11 @@ public class oneButton extends Fragment {
             public void onClick(View v) {
                 if(state==-1) {
                     Click.ignore_mess(0,0);
-                    Log.i("crashing", "prije77");
 
                     return;
                 }
                 else if(state==0) {
-                    Log.i("open", "startppp");
                     Click.ignore_mess(0,15);  // ovisi
-                    Log.i("crashing", "pooslije");
 
                     return;
                 }
@@ -83,7 +78,6 @@ public class oneButton extends Fragment {
         if(state==-1) setBtnText("Connect");
         if(state==0) setBtnText("Start ignoring");
 
-        Log.i("btt", "pocetak prve tipke");
     }
 
     public void setBtnText(String text){

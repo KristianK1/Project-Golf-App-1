@@ -37,22 +37,18 @@ public class twoButtons extends Fragment {
     }
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("fragr", "stvoren 2 btns");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Log.i("fragr", "onCreateview 2 btns");
         return inflater.inflate(R.layout.fragment_two_buttons, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("fragr", "onview created 2 btns prije btns");
         btnL = (Button) getView().findViewById(R.id.left_button);
         btnD = (Button) getView().findViewById(R.id.right_button);
-        Log.i("fragr", "onview created 2 btns");
         setUpListeners();
     }
 
@@ -61,14 +57,12 @@ public class twoButtons extends Fragment {
             @Override
             public void onClick(View v) {
                 //ona velika poruka
-                Log.i("btt", "left button");
                 Click.ignore_mess(0, 15);
             }
         });
         btnD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("btt", "right button");
                 Click.ignore_mess(1, 0);
 
             }

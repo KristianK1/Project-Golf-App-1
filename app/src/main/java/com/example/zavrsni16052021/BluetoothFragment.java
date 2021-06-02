@@ -73,46 +73,36 @@ public class BluetoothFragment extends Fragment {
 
     private void switchFragments() {
         try {
-            Log.i("fragr", "minus nula");
 
             FragmentTransaction fragmentTransaction =manager.beginTransaction();
 
             Log.i("fragr", "nula");
             if (device_status_var == 0 && which_buttons!=1) {
-                Log.i("fragr", "jedan1");
 
                 recreateFragments();
                 fragmentTransaction.replace(R.id.bt_buttons_frame, oneBtn);
-                Log.i("fragr", "dva1");
                 which_buttons=1;
             }
             if (device_status_var == 1 && ignore_status_var == 0 && which_buttons!=1) {
-                Log.i("fragr", "jedan2");
 
                 recreateFragments();
                 fragmentTransaction.replace(R.id.bt_buttons_frame, oneBtn);
-                Log.i("fragr", "dva2");
                 which_buttons=1;
 
             } else if (device_status_var == 1 && ignore_status_var == 1 && which_buttons!=2) {
-                Log.i("fragr", "jedan3");
 
                 recreateFragments();
                 fragmentTransaction.replace(R.id.bt_buttons_frame, twoBtns);
                 which_buttons=2;
-                Log.i("fragr", "dva3");
 
             }
-            Log.i("fragr", "tri");
 
             fragmentTransaction.commit();
-            Log.i("fragr", "cetiri");
         }
         catch(Exception e){}
     }
 
     private void recreateFragments() {
-        Log.i("fragr","recreate frag btns");
         if(device_status_var==0){
             oneBtn = (oneButton) recreateFragment(oneBtn);
         }
@@ -121,7 +111,6 @@ public class BluetoothFragment extends Fragment {
         }
         if(device_status_var==1 && ignore_status_var==1) {
 
-            Log.i("fragr","recreate 2 btns");
             try {
                 twoBtns = (twoButtons) recreateFragment(twoBtns);
             }
@@ -188,9 +177,7 @@ public class BluetoothFragment extends Fragment {
             dev_status.setTextColor(Color.parseColor("#00ff00"));
             ignore_status.setText("ON");
             ignore_status.setTextColor(Color.parseColor("#ff0000"));
-            Log.i("crashing", "prijett");
             switchFragments();
-            Log.i("crashing", "prije2tt");
             return 1;
         }
         else{

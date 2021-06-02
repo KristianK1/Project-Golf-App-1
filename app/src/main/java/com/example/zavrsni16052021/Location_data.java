@@ -80,7 +80,6 @@ public class Location_data {
             X=183;
             Y=93;
             code=-2;
-            Log.i("tag_binary", "duljina");
             return;
         }
         if(input.length()==1){
@@ -101,7 +100,6 @@ public class Location_data {
                     break;
                 default:
                     setCode(-1);
-                    Log.i("tag_binary","Weird code");
                     break;
             }
             setX(182);
@@ -112,15 +110,12 @@ public class Location_data {
         for(int i=0;i<10;i++){
             int value=base.indexOf(""+input.charAt(i));
             String value_bin=Integer.toBinaryString(value);
-            //Log.i("tag_binary", ""+value);
-            //Log.i("tag_binary", "|"+value_bin+"|");
             while(value_bin.length()<6){
                 value_bin="0"+value_bin;
             }
             binary+=value_bin;
         }
 
-        Log.i("tag_binary", "?"+binary);
         //60 znakova
         int sum=0;
         for(int i=0;i<57;i++){
@@ -130,7 +125,6 @@ public class Location_data {
         String Checksum="";
         for(int i=57;i<60;i++) Checksum+=binary.charAt(i);
         if(Integer.parseInt(Checksum,2)==sum) {
-            Log.i("binary_tag", "CHECKSUM ERROR");
             //return 182,92;
         }
 
@@ -141,16 +135,12 @@ public class Location_data {
         for(int i=1;i<9;i++) X_int_str+=binary.charAt(i);
         int X_int_int=Integer.parseInt(X_int_str,2);
 
-        Log.i("tag_binary", ""+X_int_str);
-        //Log.i("tag_binary", ""+X_int_int);
 
         String X_dec_str="";
         for(int i=9;i<29;i++) X_dec_str+=binary.charAt(i);
         double X_dec_dec=Integer.parseInt(X_dec_str,2);
         X_dec_dec/=1000000;
 
-        Log.i("tag_binary", ""+X_dec_str);
-        //Log.i("tag_binary", ""+X_dec_dec);
 
         setX(X_sign*(X_int_int+X_dec_dec));
 
@@ -162,15 +152,12 @@ public class Location_data {
         int Y_int_int=Integer.parseInt(Y_int_str,2);
 
         Log.i("tag_binary", ""+Y_int_str);
-        //Log.i("tag_binary", ""+Y_int_int);
 
         String Y_dec_str="";
         for(int i=37;i<57;i++) Y_dec_str+=binary.charAt(i);
         double Y_dec_dec=Integer.parseInt(Y_dec_str,2);
         Y_dec_dec/=1000000;
 
-        Log.i("tag_binary", ""+Y_dec_str);
-        //Log.i("tag_binary", ""+Y_dec_dec);
 
         setY(Y_sign*(Y_int_int+Y_dec_dec));
 
@@ -190,7 +177,6 @@ public class Location_data {
                     break;
                 default:
                     setCode(-1);
-                    Log.i("tag_binary","Weird code");
                     break;
             }
         }
@@ -221,12 +207,9 @@ public class Location_data {
 
         LocalDateTime input_parsed = LocalDateTime.parse(input, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        Log.i("tagg",""+ nowUTC.getLong(ChronoField.SECOND_OF_DAY)); // gives 71461
-        Log.i("tagg",""+ nowUTC.getLong(ChronoField.EPOCH_DAY)); // gives 16105
         long UNIX_now=nowUTC.getLong(ChronoField.EPOCH_DAY)*24*3600 + nowUTC.getLong(ChronoField.SECOND_OF_DAY);
         long unix_input=input_parsed.getLong(ChronoField.EPOCH_DAY)*24*3600+input_parsed.getLong(ChronoField.SECOND_OF_DAY);
 
-        Log.i("tagg", "minus "+(UNIX_now-unix_input));
         return UNIX_now-unix_input;
     }
 }

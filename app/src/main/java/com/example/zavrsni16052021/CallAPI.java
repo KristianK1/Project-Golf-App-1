@@ -32,15 +32,7 @@ public class CallAPI extends AsyncTask<String, String, String> {
                 sb.append(str);
             }
             result = sb.toString();
-
-
-            //Log.i("mytag", result);
-            Log.i("mytag", "not failed");
-            //page=result;
         } catch (Exception e ) {
-            //System.out.println(e.getMessage());
-            Log.i("mytag", "failed");
-            //page="error";
             return e.getMessage();
         }
         return result;
@@ -48,6 +40,6 @@ public class CallAPI extends AsyncTask<String, String, String> {
     }
 
     protected void onPostExecute(String result) {
-        Log.i("tag_bog", "aaaaaa");
+
     }
-} // end CallAPI
+}
