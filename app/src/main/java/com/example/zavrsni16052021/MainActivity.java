@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         all_creds=new ArrayList<>();
-        all_creds.add(new Creds("sviki", "Lenovo7"));
-        all_creds.add(new Creds("admin", "RRJKZ"));
-        all_creds.add(new Creds("user", "Motobecane2"));
+//        all_creds.add(new Creds("sviki", "Lenovo7"));  // Micem zbog APi logina
+//        all_creds.add(new Creds("admin", "RRJKZ"));
+//        all_creds.add(new Creds("user", "Motobecane2"));
 
         setContentView(R.layout.activity_main);
         Fragmentmanager = getSupportFragmentManager();
@@ -94,9 +94,8 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         if(screen==0) Loginfragment = (Login) recreateFragment(Loginfragment);
         if(screen==1) Mapfragment = (MapFragment) recreateFragment(Mapfragment);
         if(screen==2) Settingsfragment = (SettingsFragment) recreateFragment(Settingsfragment);
-        if(screen==3) {
-            Bluetoothfragment = (BluetoothFragment) recreateFragment(Bluetoothfragment);
-        }
+        if(screen==3) Bluetoothfragment = (BluetoothFragment) recreateFragment(Bluetoothfragment);
+
 
     }
 
@@ -121,15 +120,21 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
         SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String saved_username = sharedPreferencessss.getString("username", null);
-        String saved_password = sharedPreferencessss.getString("password", null);
+        //String saved_password = sharedPreferencessss.getString("password", null);
 
-        if(saved_username!=null && saved_password != null){
-            for(int i=0;i<all_creds.size();i++){
+        if(saved_username!=null/* && saved_password != null*/){
+            /*for(int i=0;i<all_creds.size();i++){   // Micem zbog APi logina
                 if(all_creds.get(i).isCorrect(saved_username, saved_password)){
                     screen=1;
                     Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
                 }
+            }*/
+            if(saved_username.length()>10){
+                screen=1;
+                Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
             }
+
+
         }
         if(screen==0) fragmentTransaction.add(R.id.frame_layout, Loginfragment);
         if(screen==1) fragmentTransaction.add(R.id.frame_layout, Mapfragment);
@@ -138,30 +143,46 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void login(String mUsername, String mPassword){
-        if(screen==0){
+    public void login(String mUsername /*, String mPassword*/){
+
+
+             SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+             String saved_username = sharedPreferencessss.getString("username", null);
+             if(saved_username.length()>10){
+                 screen=1;
+                 switchFragments();
+                 data_handler.changeAPI(mUsername);
+                 return;
+             }
+
+        //if(screen==0){
             //login
 
-            for(int i=0;i<all_creds.size();i++){
-                if(all_creds.get(i).isCorrect(mUsername, mPassword)){
+            /*for(int i=0;i<all_creds.size();i++){           // Micem zbog APi logina
+                if(all_creds.get(i).isCorrect(mUsername, mPassword){
+
+             */
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
 
                     editor.putString("username", mUsername);
-                    editor.putString("password", mPassword);
+                    //editor.putString("password", mPassword);
                     editor.apply();
-
-                    SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    /*SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     String saved_username = sharedPreferencessss.getString("username", null);
-                    String saved_password = sharedPreferencessss.getString("password", null);
+                    String saved_password = sharedPreferencessss.getString("password", null); // Micem zbog APi logina
 
-                    screen=1;
-                    switchFragments();
-                    return;
-                }
-            }
-            Toast.makeText(this, "Ne valja", Toast.LENGTH_SHORT).show();
-        }
+
+                    screen=1; //bitno za nastavak
+                    switchFragments(); //bitno za nastavak
+
+                    return;*/
+
+               // }
+            //}
+
+            //Toast.makeText(this, "Ne valja", Toast.LENGTH_SHORT).show();
+        //}
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -233,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString("username", "");
-        editor.putString("password", "");
+        //editor.putString("password", "");
         editor.apply();
         screen=0;
         switchFragments();

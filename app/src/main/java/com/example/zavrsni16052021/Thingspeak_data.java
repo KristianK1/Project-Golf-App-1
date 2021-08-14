@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Thingspeak_data {
-    private String API_key="LSD5QYMX5FJGL4WE";
+    private String API_key;//="LSD5QYMX5FJGL4WE";
     private String ChannelID="1120413";
     private int number_of_minutes;
 
@@ -81,5 +81,9 @@ public class Thingspeak_data {
         }
         return list;
     }
+    public void changeAPI(String mAPI){
+        this.API_key=mAPI;
+    }
 
 }
+

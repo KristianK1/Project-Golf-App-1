@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_name_under_app"
-        android:text="Username"
+        android:text="API"
         android:textSize="30dp"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="30dp"
@@ -42,32 +42,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="150dp"
+        android:layout_marginRight="50dp"
         android:layout_below="@+id/tw_login_username"
-        android:hint="Enter your username"
+        android:hint="Enter your ThingSpeak API"
         />
 
-    <TextView
-        android:id="@+id/tw_login_pass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_login_username"
-        android:text="Password"
-        android:textSize="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="30dp"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/tw_login_pass"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/et_login_username"-->
+<!--        android:text="Password"-->
+<!--        android:textSize="30dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:layout_marginLeft="30dp"-->
+<!--        />-->
 
-    <EditText
-        android:id="@+id/et_login_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="150dp"
-        android:layout_below="@+id/tw_login_pass"
-        android:hint="Enter your password"
-        android:inputType="textPassword"
-        />
+<!--    <EditText-->
+<!--        android:id="@+id/et_login_pass"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="30dp"-->
+<!--        android:layout_marginRight="150dp"-->
+<!--        android:layout_below="@+id/tw_login_pass"-->
+<!--        android:hint="Enter your password"-->
+<!--        android:inputType="textPassword"-->
+<!--        />-->
 
     <Button
         android:id="@+id/login_button"
@@ -76,7 +76,7 @@
         android:text="Login"
         android:textAllCaps="false"
         android:textSize="30dp"
-        android:layout_below="@id/et_login_pass"
+        android:layout_below="@id/et_login_username"
         android:layout_marginRight="70dp"
         android:layout_marginTop="30dp"
         android:layout_alignParentRight="true"

@@ -15,7 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class Login extends Fragment {
-    EditText username_et, password_et;
+    EditText username_et;
+//    EditText password_et; // Micem zbog APi logina
     Button login_bt;
 
     Login_interface ch_screen;
@@ -36,7 +37,7 @@ public class Login extends Fragment {
 
         login_bt = getView().findViewById(R.id.login_button);
         username_et = getView().findViewById(R.id.et_login_username);
-        password_et = getView().findViewById(R.id.et_login_pass);
+//        password_et = getView().findViewById(R.id.et_login_pass);
         setUpListeners();
     }
 
@@ -44,7 +45,8 @@ public class Login extends Fragment {
         login_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ch_screen.login(username_et.getText().toString(), password_et.getText().toString());
+                if(username_et.getText().toString().length()>10)
+                    ch_screen.login(username_et.getText().toString()/*, password_et.getText().toString()*/);
             }
         });
     }
