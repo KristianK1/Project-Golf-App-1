@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             if(saved_username.length()>10){
                 screen=1;
                 Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
+                data_handler.changeAPI(saved_username);
             }
 
 
@@ -394,26 +395,29 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         Object[] devices = (Object []) bondedDevices.toArray();
         for(int i=0;i<bondedDevices.size();i++) {
             BluetoothDevice device = (BluetoothDevice) devices[i];
-            Log.i("bt","device name: "+device.getName());
-            Log.i("bt","device adress: "+device.getAddress());
+            Log.i("bt","device nameX: |"+device.getName()+"|");
+            Log.i("bt","device adressX: "+device.getAddress());
             ParcelUuid[] uuids = device.getUuids();
-            try{
-                BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
-                socket.connect();
-                outputStream = socket.getOutputStream();
-                inStream = socket.getInputStream();
-                outputStream.write(send.getBytes());
-                long time1=current_miliseconds();
-                while(current_miliseconds()-time1<3000);  //PONOC fix this
-                String reply="";
-                while(inStream.available()>0) reply+=(char)inStream.read();
-                socket.close();
-                return reply;
+            if(device.getName().contentEquals(Bluetooth_name)) {
+                Log.i("bt", "naso");
+                try {
+                    BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+                    socket.connect();
+                    outputStream = socket.getOutputStream();
+                    inStream = socket.getInputStream();
+                    outputStream.write(send.getBytes());
+                    long time1 = current_miliseconds();
+                    while (current_miliseconds() - time1 < 3000) ;  //PONOC fix this
+                    String reply = "";
+                    while (inStream.available() > 0) reply += (char) inStream.read();
+                    socket.close();
+                    return reply;
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Bluetooth communication failed", Toast.LENGTH_LONG);
+                    return "X";
+                }
             }
-            catch (Exception e){
-                Toast.makeText(getApplicationContext(), "Bluetooth communication failed",Toast.LENGTH_LONG);
-                return "X";
-            }
+            else Log.i("bt","nisam naso");
         }
         return "E";
     }
