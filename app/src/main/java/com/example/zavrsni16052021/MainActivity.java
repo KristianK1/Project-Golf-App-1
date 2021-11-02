@@ -402,16 +402,25 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                     inStream = socket.getInputStream();
                     outputStream.write(send.getBytes());
                     long time1 = current_miliseconds();
-                    while (current_miliseconds() - time1 < 3000) ;  //PONOC fix this
                     String reply = "";
-                    while (inStream.available() > 0) reply += (char) inStream.read();
+                    while (current_miliseconds() - time1 < 3000) {  //PONOC fix this
+                        while (inStream.available() > 0) reply += (char) inStream.read();
+                        if(reply.contains("T=111")) break;
+                        if(reply.contains("T=222,") && reply.length()==12) break;
+                        if(reply.contains("Error")) break;
+                    }
+                    if(reply.length()==0) Toast.makeText(getApplicationContext(), "Bluetooth communication failed", Toast.LENGTH_LONG).show();
+
                     socket.close();
                     return reply;
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Bluetooth communication failed", Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), "Bluetooth communication failed", Toast.LENGTH_LONG).show();
+                    Log.i("bt", "nope");
                     return "X";
                 }
-            } else Log.i("bt", "nisam naso");
+            } else {
+                Log.i("bt", "nisam naso");
+            }
         }
         return "E";
     }
