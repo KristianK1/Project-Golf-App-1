@@ -31,7 +31,7 @@ public class Thingspeak_data {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<Location_data> download(){
-        AsyncTask<String, String, String> execute = new CallAPI().execute("https://api.thingspeak.com/channels/"+ ChannelID +"/feeds.json?api_key=" + API_key + "&results=4100");
+        AsyncTask<String, String, String> execute = new CallAPI().execute("https://api.thingspeak.com/channels/"+ ChannelID +"/feeds.json?api_key=" + API_key + "&results=4200");
 
         String stranica="";
         try{
@@ -54,7 +54,7 @@ public class Thingspeak_data {
 
 
             JSONArray field1Array = reader.getJSONArray("feeds");
-            for(int i=4099;i>=0;i--){
+            for(int i=4199;i>=0;i--){
                 JSONObject entry=field1Array.getJSONObject(i);
                 String locc_data=entry.getString("field1");
                 String time_data=entry.getString("created_at");
@@ -70,7 +70,7 @@ public class Thingspeak_data {
                         list.add(new_entry);
                     }
                 }
-                if(list.size()>=1000) break;
+                //if(list.size()>=4200) break;
             }
 
         }
