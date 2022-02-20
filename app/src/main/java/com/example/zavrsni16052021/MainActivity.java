@@ -10,15 +10,18 @@ import androidx.fragment.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
+import android.service.autofill.UserData;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.autofill.AutofillManager;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,9 +35,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements Login_interface, logout, ignore_click {
     private List<Creds> all_creds;
@@ -52,12 +53,13 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
     private Thingspeak_data data_handler;
 
     private String Bluetooth_name = "ProjectGolf";
-    private String Bluetooth_uuid = "3C:61:05:2E:7F:FA";
+    private String Bluetooth_uuid; //= "3C:61:05:2E:7F:FA";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         all_creds = new ArrayList<>();
 //        all_creds.add(new Creds("sviki", "Lenovo7"));  // Micem zbog APi logina
 //        all_creds.add(new Creds("admin", "RRJKZ"));
@@ -116,20 +118,24 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         FragmentTransaction fragmentTransaction = Fragmentmanager.beginTransaction();
 
         SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String saved_username = sharedPreferencessss.getString("username", null);
-        //String saved_password = sharedPreferencessss.getString("password", null);
+        String saved_CH_ID = sharedPreferencessss.getString("CH_ID", null);
+        String saved_API = sharedPreferencessss.getString("API", null);
+        String saved_MAC = sharedPreferencessss.getString("MAC", null);
 
-        if (saved_username != null/* && saved_password != null*/) {
+        if (saved_CH_ID != null && saved_API != null && saved_MAC != null) {
             /*for(int i=0;i<all_creds.size();i++){   // Micem zbog APi logina
                 if(all_creds.get(i).isCorrect(saved_username, saved_password)){
                     screen=1;
                     Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
                 }
             }*/
-            if (saved_username.length() > 10) {
+            if (saved_CH_ID.length() > 5) {
                 screen = 1;
                 Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
-                data_handler.changeAPI(saved_username);
+                data_handler.changeChannelID(saved_CH_ID);
+                data_handler.changeAPI(saved_API);
+                Bluetooth_uuid = saved_MAC;
+
             }
 
 
@@ -141,29 +147,27 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void login(String mUsername /*, String mPassword*/) {
+    public void login(String CH_ID , String API, String MAC) {
 
-
-
-
-
-        //if(screen==0){
-        //login
-
-            /*for(int i=0;i<all_creds.size();i++){           // Micem zbog APi logina
-                if(all_creds.get(i).isCorrect(mUsername, mPassword){
-
-             */
-        if (mUsername.length() > 10) {
+        if (CH_ID.length()>5 && API.length() > 10) {
             screen = 1;
             switchFragments();
-            data_handler.changeAPI(mUsername);
+            data_handler.changeChannelID(CH_ID);
+            data_handler.changeAPI(API);
+
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            editor.putString("username", mUsername);
-            //editor.putString("password", mPassword);
+            editor.putString("CH_ID", CH_ID);
+            editor.putString("API", API);
+            editor.putString("MAC", MAC);
+            Bluetooth_uuid = MAC;
+
+            //AutofillManager afm = getApplicationContext().getSystemService(AutofillManager.class);
+
+
+
             editor.apply();
 
 
@@ -190,14 +194,28 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void Refresh_from_program() {
         List<Location_data> loc_list = data_handler.download();
+
+        if(loc_list.size()==0){
+            Toast.makeText(getApplicationContext(),"Provjerite internetsku konekciju",Toast.LENGTH_SHORT);
+        }
         List<LatLng> list = new ArrayList<>();
         for (int i = 0; i < loc_list.size(); i++)
             list.add(new LatLng(loc_list.get(i).getY(), loc_list.get(i).getX()));
-        Mapfragment.googleMappp.addMarker(new MarkerOptions().position(list.get(0)).title("Last recorded location").visible(true));
-        Polyline polyline = Mapfragment.googleMappp.addPolyline(new PolylineOptions());
-        polyline.setPoints(list);
-        polyline.setVisible(true);
-        Mapfragment.googleMappp.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(0), 15));
+
+        if(list.size()!=0) {
+            try {
+                //Mapfragment.googleMappp.clear();
+                Mapfragment.googleMappp.addMarker(new MarkerOptions().position(list.get(0)).title("Last recorded location").visible(true));
+                Polyline polyline = Mapfragment.googleMappp.addPolyline(new PolylineOptions());
+                polyline.setPoints(list);
+                polyline.setVisible(true);
+                Mapfragment.googleMappp.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(0), 15));
+
+            } catch (Exception e) {
+                Log.i("debuggg", "helllo");
+                Toast.makeText(getApplicationContext(), "Nesto je poslo po krivu", Toast.LENGTH_SHORT);
+            }
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -228,6 +246,14 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         if (saved_history != null) {
             data_handler.change_history_minutes(History_str_to_int(saved_history));
         }
+
+        String saved_MAC = sharedPreferencessss.getString("MAC", null);
+        if(saved_MAC != null){
+            Bluetooth_uuid = saved_MAC;
+        }
+
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -255,8 +281,10 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("username", "");
-        //editor.putString("password", "");
+        editor.putString("CH_ID", "");
+        editor.putString("API", "");
+        editor.putString("MAC", "");
+
         editor.apply();
         screen = 0;
         switchFragments();
@@ -301,6 +329,9 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                 return 14400;
             case "30 days":
                 return 43200;
+            case "90 days":
+                return 129600;
+
         }
         return -1;
     }
@@ -393,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             Log.i("bt", "device nameX: |" + device.getName() + "|");
             Log.i("bt", "device adressX: " + device.getAddress());
             ParcelUuid[] uuids = device.getUuids();
-            if (device.getName().contentEquals(Bluetooth_name)) {
+            if (device.getName().contentEquals(Bluetooth_name) && device.getAddress().contentEquals(Bluetooth_uuid)) {
                 Log.i("bt", "naso");
                 try {
                     BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());

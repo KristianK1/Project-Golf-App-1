@@ -27,47 +27,74 @@
         />
 
     <TextView
-        android:id="@+id/tw_login_username"
+        android:id="@+id/tw_login_CH_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_name_under_app"
-        android:text="API"
+        android:text="Thingspeak Channel ID"
         android:textSize="30dp"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="30dp"
         />
 
     <EditText
-        android:id="@+id/et_login_username"
+        android:id="@+id/et_login_CH_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
-        android:layout_below="@+id/tw_login_username"
-        android:hint="Enter your ThingSpeak API"
+        android:layout_below="@+id/tw_login_CH_ID"
+        android:hint="Enter your channel ID"
+        android:autofillHints="name"
+        android:importantForAutofill="yes"
         />
 
-<!--    <TextView-->
-<!--        android:id="@+id/tw_login_pass"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/et_login_username"-->
-<!--        android:text="Password"-->
-<!--        android:textSize="30dp"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:layout_marginLeft="30dp"-->
-<!--        />-->
+    <TextView
+        android:id="@+id/tw_login_API"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_login_CH_ID"
+        android:text="API write key"
+        android:textSize="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        />
 
-<!--    <EditText-->
-<!--        android:id="@+id/et_login_pass"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="30dp"-->
-<!--        android:layout_marginRight="150dp"-->
-<!--        android:layout_below="@+id/tw_login_pass"-->
-<!--        android:hint="Enter your password"-->
-<!--        android:inputType="textPassword"-->
-<!--        />-->
+    <EditText
+        android:id="@+id/et_login_API"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="50dp"
+        android:layout_below="@+id/tw_login_API"
+        android:layout_marginTop="0dp"
+        android:hint="Enter your Write API key"
+        android:autofillHints="username"
+        android:importantForAutofill="yes"
+        />
+
+    <TextView
+        android:id="@+id/tw_login_BT_adr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_login_API"
+        android:text="Bluetooth MAC address"
+        android:textSize="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        />
+
+    <EditText
+        android:id="@+id/et_login_BT_adr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="50dp"
+        android:layout_below="@+id/tw_login_BT_adr"
+        android:hint="Enter MAC address"
+        android:autofillHints="password"
+        android:importantForAutofill="yes"
+        />
 
     <Button
         android:id="@+id/login_button"
@@ -76,7 +103,7 @@
         android:text="Login"
         android:textAllCaps="false"
         android:textSize="30dp"
-        android:layout_below="@id/et_login_username"
+        android:layout_below="@id/et_login_BT_adr"
         android:layout_marginRight="70dp"
         android:layout_marginTop="30dp"
         android:layout_alignParentRight="true"

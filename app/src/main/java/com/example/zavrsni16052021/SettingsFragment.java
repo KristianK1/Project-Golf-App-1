@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
     private Spinner history_select;
-    private String[] history_modes = {"10 min", "20 min", "30 min", "1 hour", "2 hours", "3 hours", "6 hours", "12 hours", "1 day", "2 days", "5 days", "10 days", "30 days"};
+    private String[] history_modes = {"10 min", "20 min", "30 min", "1 hour", "2 hours", "3 hours", "6 hours", "12 hours", "1 day", "2 days", "5 days", "10 days", "30 days","90 days"};
     public String saved_history;
     private AdapterView history_spinner;
     ArrayAdapter<String> adapter_history;

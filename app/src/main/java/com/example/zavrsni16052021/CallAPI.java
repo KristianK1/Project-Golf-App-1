@@ -15,7 +15,7 @@ public class CallAPI extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        String urlString=params[0]; // URL to call
+        String urlString = params[0]; // URL to call
         String result = "";
         InputStream in = null;
 
@@ -28,11 +28,11 @@ public class CallAPI extends AsyncTask<String, String, String> {
             BufferedReader reader = new BufferedReader(ISreader);
             StringBuffer sb = new StringBuffer();
             String str;
-            while((str = reader.readLine())!= null){
+            while ((str = reader.readLine()) != null) {
                 sb.append(str);
             }
             result = sb.toString();
-        } catch (Exception e ) {
+        } catch (Exception e) {
             return e.getMessage();
         }
         return result;
