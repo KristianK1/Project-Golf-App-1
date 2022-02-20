@@ -30,7 +30,7 @@ public class Thingspeak_data {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<Location_data> download(){
-      
+       
         String stranica="";
 
         int how_much;
