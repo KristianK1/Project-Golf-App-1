@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
         if(list.size()!=0) {
             try {
-                //Mapfragment.googleMappp.clear();
+                Mapfragment.googleMappp.clear();
                 Mapfragment.googleMappp.addMarker(new MarkerOptions().position(list.get(0)).title("Last recorded location").visible(true));
                 Polyline polyline = Mapfragment.googleMappp.addPolyline(new PolylineOptions());
                 polyline.setPoints(list);

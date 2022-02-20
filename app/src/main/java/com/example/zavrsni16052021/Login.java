@@ -59,9 +59,6 @@ public class Login extends Fragment {
         afm.requestAutofill(BT_adress_et);
 
 
-
-
-
         setUpListeners();
     }
 
