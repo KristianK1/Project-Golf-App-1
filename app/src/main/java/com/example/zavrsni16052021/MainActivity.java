@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                 Polyline polyline = Mapfragment.googleMappp.addPolyline(new PolylineOptions());
                 polyline.setPoints(list);
                 polyline.setVisible(true);
-                Mapfragment.googleMappp.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(0), 15));
+                Mapfragment.googleMappp.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(0), 15),400,null);
 
             } catch (Exception e) {
                 Log.i("debuggg", "helllo");
@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             case "10 days":
                 return 14400;
             case "30 days":
-                return 43200;
+                return 430;
             case "90 days":
                 return 129600;
 

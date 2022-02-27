@@ -75,26 +75,30 @@ public class Thingspeak_data {
 
 
             JSONArray field1Array = reader.getJSONArray("feeds");
+            size = field1Array.length();
             for(i=size-1;i>=0;i--){
 
                 JSONObject entry=field1Array.getJSONObject(i);
                 String locc_data=entry.getString("field1");
                 String time_data=entry.getString("created_at");
 
-                Location_data new_entry=new Location_data(locc_data, time_data);
+                String datas[] = locc_data.split("\\*"); //kao "*"
+                for(int j = datas.length - 1;j>=0 ; j--){
+                    Location_data new_entry=new Location_data(datas[j], time_data);
 
+                    if(new_entry.getX()!=183 && new_entry.getX()!=182){
+                        if(list.size()==0) {
+                            list.add(new_entry);
+                        }
 
-
-                if(new_entry.getX()!=183 && new_entry.getX()!=182){
-                    if(list.size()==0) {
-                        list.add(new_entry);
+                        else if(new_entry.Timestamp_history_calc(time_data)<number_of_minutes*60){
+                            list.add(new_entry);
+                        }
                     }
-
-                    else if(new_entry.Timestamp_history_calc(time_data)<number_of_minutes*60){
-                        list.add(new_entry);
-                    }
+                    //if(list.size()>=1000) break;
                 }
-                //if(list.size()>=1000) break;
+
+
             }
 
         }

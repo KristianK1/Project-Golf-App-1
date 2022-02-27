@@ -106,6 +106,7 @@ public class Location_data {
             setY(92);
             return;
         }
+
         String binary="";
         for(int i=0;i<10;i++){
             int value=base.indexOf(""+input.charAt(i));
@@ -124,8 +125,8 @@ public class Location_data {
         sum=sum%8;
         String Checksum="";
         for(int i=57;i<60;i++) Checksum+=binary.charAt(i);
-        if(Integer.parseInt(Checksum,2)==sum) {
-            //return 182,92;
+        if(Integer.parseInt(Checksum,2)!=sum) {
+            Log.i("tag_binary", "neispravno dekodiranje");
         }
 
         //X
