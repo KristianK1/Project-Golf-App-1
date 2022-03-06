@@ -15,18 +15,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class SettingsFragment extends Fragment {
     private Spinner history_select;
     private String[] history_modes = {"10 min", "20 min", "30 min", "1 hour", "2 hours", "3 hours", "6 hours", "12 hours", "1 day", "2 days", "5 days", "10 days", "30 days","90 days"};
     public String saved_history;
+    public boolean begin_toggle_state;
     private AdapterView history_spinner;
     ArrayAdapter<String> adapter_history;
 //
     private TextView logout;
     private logout logout_interface;
+
+    private ToggleButton toggle_bt;
+    private Timestamp_toggle timestamp_toggle;
     public SettingsFragment() {
 
     }
@@ -54,7 +60,11 @@ public class SettingsFragment extends Fragment {
         history_spinner.setAdapter(adapter_history);
         starting_history_string(saved_history);
         logout=(TextView) getView().findViewById(R.id.logout_tw);
+        toggle_bt = (ToggleButton) getView().findViewById(R.id.toggle_map_choose);
+        toggle_bt.setChecked(begin_toggle_state);
+
         setUpListeners();
+
     }
 
     public void starting_history_string(String histry){
@@ -76,6 +86,19 @@ public class SettingsFragment extends Fragment {
                 logout_interface.logoutt();
             }
         });
+
+        toggle_bt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("toggle", "location checked");
+                    timestamp_toggle.timestamps(true);
+                } else {
+                    Log.i("toggle", "location UNchecked");
+                    timestamp_toggle.timestamps(false);
+
+                }
+            }
+        });
     }
     public String getSelectedHistory(){
         return history_select.getSelectedItem().toString();
@@ -85,6 +108,7 @@ public class SettingsFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof Login_interface) {
             this.logout_interface = (logout) context;
+            this.timestamp_toggle = (Timestamp_toggle) context;
         }
 
     }
@@ -92,5 +116,6 @@ public class SettingsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         this.logout_interface = null;
+        this.timestamp_toggle = null;
     }
 }

@@ -22,6 +22,8 @@ public class Location_data {
     double Y;
     int code;
     String timestamp;
+    boolean show_marker;
+
 
     double getX(){
         return X;
@@ -42,6 +44,15 @@ public class Location_data {
         Y=mY;
     }
 
+    public boolean get_Show_marker(){
+        return show_marker;
+    }
+
+
+    public void setShow_marker(boolean show_marker) {
+        this.show_marker = show_marker;
+    }
+
     public void setCode(int code) {
         this.code = code;
     }
@@ -59,6 +70,7 @@ public class Location_data {
         Y=0;
         code=-1;
         timestamp="";
+        show_marker = false;
         return;
     }
 
@@ -67,12 +79,13 @@ public class Location_data {
         Y=mY;
         code=mCode;
         timestamp=mTimestamp;
+        show_marker  =false;
     }
 
     Location_data(String input, String mTimestamp){
         timestamp=mTimestamp;
         String base= "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.:";
-
+        this.show_marker = false;
         //velicina paketa 11 charova, ponekad 10
         //zadnji char je onaj dodatni character
 

@@ -78,9 +78,22 @@ public class Thingspeak_data {
             size = field1Array.length();
             for(i=size-1;i>=0;i--){
 
+
                 JSONObject entry=field1Array.getJSONObject(i);
                 String locc_data=entry.getString("field1");
                 String time_data=entry.getString("created_at");
+
+                JSONObject old_entry;
+                if(i>0){
+                    old_entry = field1Array.getJSONObject(i-1);
+                    if(old_entry.getString("field1").equals(locc_data)) {
+                        Log.i("cont2", "one");
+                        continue;
+
+                    }
+
+                    Log.i("cont2", "one21");
+                }
 
                 String datas[] = locc_data.split("\\*"); //kao "*"
                 for(int j = datas.length - 1;j>=0 ; j--){
@@ -89,11 +102,18 @@ public class Thingspeak_data {
                     if(new_entry.getX()!=183 && new_entry.getX()!=182){
                         if(list.size()==0) {
                             list.add(new_entry);
+
                         }
 
                         else if(new_entry.Timestamp_history_calc(time_data)<number_of_minutes*60){
+                            if(j==0){
+                                new_entry.setShow_marker(true);
+                            }
                             list.add(new_entry);
+
                         }
+
+
                     }
                     //if(list.size()>=1000) break;
                 }

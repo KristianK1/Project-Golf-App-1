@@ -32,12 +32,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements Login_interface, logout, ignore_click {
+public class MainActivity extends AppCompatActivity implements Login_interface, logout, ignore_click, Timestamp_toggle {
     private List<Creds> all_creds;
 
     private int device_status_var = 0, ignore_status_var = 0;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
     private String Bluetooth_name = "ProjectGolf";
     private String Bluetooth_uuid; //= "3C:61:05:2E:7F:FA";
-
+    private boolean show_timestamps;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,22 +200,31 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             Toast.makeText(getApplicationContext(),"Provjerite internetsku konekciju",Toast.LENGTH_SHORT);
         }
         List<LatLng> list = new ArrayList<>();
-        for (int i = 0; i < loc_list.size(); i++)
+        for (int i = 0; i < loc_list.size(); i++) {
             list.add(new LatLng(loc_list.get(i).getY(), loc_list.get(i).getX()));
 
+        }
         if(list.size()!=0) {
             try {
                 Mapfragment.googleMappp.clear();
-                Mapfragment.googleMappp.addMarker(new MarkerOptions().position(list.get(0)).title("Last recorded location").visible(true));
+                Mapfragment.googleMappp.addMarker(new MarkerOptions().position(list.get(0)).title("Last recorded location  " + loc_list.get(0).timestamp).visible(true));
                 Polyline polyline = Mapfragment.googleMappp.addPolyline(new PolylineOptions());
                 polyline.setPoints(list);
                 polyline.setVisible(true);
                 Mapfragment.googleMappp.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(0), 15),400,null);
-
+                if(show_timestamps==true) {
+                    for (int i = 0; i < loc_list.size(); i++) {
+                        if (loc_list.get(i).get_Show_marker() == true) {
+                            Mapfragment.googleMappp.addMarker(new MarkerOptions().position(list.get(i)).title(loc_list.get(i).timestamp).visible(true));
+                        }
+                    }
+                }
             } catch (Exception e) {
                 Log.i("debuggg", "helllo");
                 Toast.makeText(getApplicationContext(), "Nesto je poslo po krivu", Toast.LENGTH_SHORT);
             }
+
+
         }
     }
 
@@ -252,8 +262,10 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             Bluetooth_uuid = saved_MAC;
         }
 
-
-
+        boolean saved_stamps = sharedPreferencessss.getBoolean("show_timestamps", false);
+        if(saved_MAC != null){
+            show_timestamps = saved_stamps;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -264,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
         SharedPreferences sharedPreferencessss = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String saved_history = sharedPreferencessss.getString("history_settings", null);
         if (saved_history != null) Settingsfragment.saved_history = saved_history;
-
+        Settingsfragment.begin_toggle_state = show_timestamps;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -328,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             case "10 days":
                 return 14400;
             case "30 days":
-                return 430;
+                return 43000;
             case "90 days":
                 return 129600;
 
@@ -454,5 +466,18 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             }
         }
         return "E";
+    }
+
+    @Override
+    public void timestamps(boolean value) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean("show_timestamps", value);
+
+        editor.apply();
+
+        this.show_timestamps = value;
+
     }
 }
