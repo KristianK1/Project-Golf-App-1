@@ -94,11 +94,11 @@ public class Thingspeak_data {
 
                     Log.i("cont2", "one21");
                 }
-
+                Log.i("data_interpreter", locc_data);
                 String datas[] = locc_data.split("\\*"); //kao "*"
                 for(int j = datas.length - 1;j>=0 ; j--){
                     Location_data new_entry=new Location_data(datas[j], time_data);
-
+                    Log.i("data_interpreter", datas[j]);
                     if(new_entry.getX()!=183 && new_entry.getX()!=182){
                         if(list.size()==0) {
                             list.add(new_entry);
@@ -106,7 +106,9 @@ public class Thingspeak_data {
                         }
 
                         else if(new_entry.Timestamp_history_calc(time_data)<number_of_minutes*60){
-                            if(j==0){
+                            if(j == (datas.length - 1)){
+                                Log.i("data_interpreter", "yes");
+
                                 new_entry.setShow_marker(true);
                             }
                             list.add(new_entry);
