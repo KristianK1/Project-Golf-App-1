@@ -22,7 +22,7 @@ public class BluetoothFragment extends Fragment {
     private int which_buttons = 1; //1 or 2
     private FragmentManager manager;
     private oneButton oneBtn;
-    private twoButtons twoBtns;
+    private fourButtons fourBtns;
 
     public BluetoothFragment() {
         // Required empty public constructor
@@ -44,16 +44,17 @@ public class BluetoothFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         manager = getChildFragmentManager();
-        if (device_status_var == 0) oneBtn = new oneButton(-1);
-        else oneBtn = new oneButton(0);
 
-        twoBtns = new twoButtons();
+        oneBtn = new oneButton();
+
+        int state;
+        fourBtns = new fourButtons(ignore_status_var);
         FragmentTransaction ft = manager.beginTransaction();
         if (ignore_status_var == 0) {
             ft.add(R.id.bt_buttons_frame, oneBtn);
             which_buttons = 1;
         } else {
-            ft.add(R.id.bt_buttons_frame, twoBtns);
+            ft.add(R.id.bt_buttons_frame, fourBtns);
             which_buttons = 2;
         }
         ft.commit();
@@ -78,26 +79,15 @@ public class BluetoothFragment extends Fragment {
         try {
 
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
-
-            Log.i("fragr", "nula");
-            if (device_status_var == 0 && which_buttons != 1) {
-
+            if (device_status_var == 0 ) {
                 recreateFragments();
                 fragmentTransaction.replace(R.id.bt_buttons_frame, oneBtn);
                 which_buttons = 1;
             }
-            if (device_status_var == 1 && ignore_status_var == 0 && which_buttons != 1) {
-
+            else if (device_status_var == 1) {
                 recreateFragments();
-                fragmentTransaction.replace(R.id.bt_buttons_frame, oneBtn);
-                which_buttons = 1;
-
-            } else if (device_status_var == 1 && ignore_status_var == 1 && which_buttons != 2) {
-
-                recreateFragments();
-                fragmentTransaction.replace(R.id.bt_buttons_frame, twoBtns);
+                fragmentTransaction.replace(R.id.bt_buttons_frame, fourBtns);
                 which_buttons = 2;
-
             }
 
             fragmentTransaction.commit();
@@ -109,13 +99,9 @@ public class BluetoothFragment extends Fragment {
         if (device_status_var == 0) {
             oneBtn = (oneButton) recreateFragment(oneBtn);
         }
-        if (device_status_var == 1 && ignore_status_var == 0) {
-            oneBtn = (oneButton) recreateFragment(oneBtn);
-        }
-        if (device_status_var == 1 && ignore_status_var == 1) {
-
+        if (device_status_var == 1) {
             try {
-                twoBtns = (twoButtons) recreateFragment(twoBtns);
+                fourBtns = (fourButtons) recreateFragment(fourBtns);
             } catch (Exception e) {
                 Log.i("fragr", "failed but ok");
             }
@@ -141,30 +127,27 @@ public class BluetoothFragment extends Fragment {
     }
 
     public void set_device_status(int state) {
+        Log.i("BTstate", "device state BT fragment " + state);
         device_status_var = state;
         if (state == 0) {
             ignore_status_var = 0;
             dev_status.setText("Out of range");
             dev_status.setTextColor(Color.parseColor("#ff0000"));
-            ignore_status.setText("IDK");
+            ignore_status.setText("Nepoznato");
             ignore_status.setTextColor(Color.parseColor("#000000"));
             switchFragments();
-
-            oneBtn.setState(-1);
             oneBtn.setBtnText("Connect");
-        } else if (state == 1 && ignore_status_var == 0) {
+        } else if (state == 1) {
             dev_status.setText("Connected");
             dev_status.setTextColor(Color.parseColor("#00ff00"));
             switchFragments();
-
-            oneBtn.setState(0);
-            oneBtn.setBtnText("Start ignoring");
         }
         Log.i("open", "boga2");
 
     }
 
     public int set_ignore_status(int state) {
+        Log.i("BTstate", "ignore state BT fragment " + state);
         if (state == 0 && device_status_var == 1) {
             ignore_status_var = state;
 
@@ -173,6 +156,7 @@ public class BluetoothFragment extends Fragment {
             ignore_status.setText("OFF");
             ignore_status.setTextColor(Color.parseColor("#00ff00"));
             switchFragments();
+            fourBtns.setState(0);
             return 1;
         } else if (state == 1) {
             ignore_status_var = state;
@@ -182,11 +166,10 @@ public class BluetoothFragment extends Fragment {
             ignore_status.setText("ON");
             ignore_status.setTextColor(Color.parseColor("#ff0000"));
             switchFragments();
+            fourBtns.setState(1);
             return 1;
         } else {
             return 0;
         }
     }
-
-
 }

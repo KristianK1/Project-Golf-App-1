@@ -38,7 +38,7 @@
         android:id="@+id/ignore_tw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="IDK"
+        android:text="Nepoznato"
         android:textColor="#0000FF"
         android:textSize="30dp"
         android:layout_margin="12dp"

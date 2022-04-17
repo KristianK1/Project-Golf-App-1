@@ -16,17 +16,9 @@ import android.widget.Button;
 public class oneButton extends Fragment {
     private Button btn;
     ignore_click Click;
-    int state;
 
-    public oneButton(int mState) {
-        state=mState;
-    }
     public oneButton() {
 
-    }
-
-    public void setState(int state) {
-        this.state = state;
     }
 
     public static oneButton newInstance() {
@@ -57,16 +49,8 @@ public class oneButton extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(state==-1) {
-                    Click.ignore_mess(0,0);
-
-                    return;
-                }
-                else if(state==0) {
-                    Click.ignore_mess(0,15);  // ovisi
-
-                    return;
-                }
+                Click.ignore_mess(0,0);
+                return;
             }
         });
     }
@@ -75,14 +59,12 @@ public class oneButton extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btn = (Button) getView().findViewById(R.id.one_button_bt);
         setUpListeners();
-        if(state==-1) setBtnText("Connect");
-        if(state==0) setBtnText("Start ignoring");
+        setBtnText("Connect");
 
     }
 
     public void setBtnText(String text){
         if(btn!= null) btn.setText(text);
-        else Log.i("metla", "heh");
     }
 
 }

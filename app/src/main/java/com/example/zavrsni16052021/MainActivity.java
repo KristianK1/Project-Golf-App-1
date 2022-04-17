@@ -355,6 +355,9 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             if (Bluetoothfragment.getDevice_status_var() >= 0) { //nebitno
 
                 String reply = BTsend("T?");
+
+                Log.i("BTstate", "send: " + "T?");
+                Log.i("BTstate", "reply: " + reply);
                 if (reply.contains("T=111")) {
 
                     device_status_var = 1;
@@ -374,15 +377,17 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                     Bluetoothfragment.set_ignore_status(0);
                 }
             }
-        } else if (code == 0 && minutes > 0) {
+        } else if (code == 0 && minutes != 0) {
             if (Bluetoothfragment.getDevice_status_var() == 1) {
                 String mess = "T=222,";
-
-                if (minutes < 10) mess += "00" + Integer.toString(minutes);
+                if(minutes == -1) mess += "00x";
+                else if (minutes < 10) mess += "00" + Integer.toString(minutes);
                 else if (minutes >= 10 && minutes < 100) mess += "0" + Integer.toString(minutes);
                 else if (minutes >= 100 && minutes < 1000) mess += Integer.toString(minutes);
                 String reply = BTsend(mess);
 
+                Log.i("BTstate", "send: " + mess);
+                Log.i("BTstate", "reply: " + reply);
                 if (reply.contains("T=222")) {
                     device_status_var = 1;
 
@@ -397,6 +402,9 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
             }
         } else if (code == 1) {
             String reply = BTsend("T=111");
+            Log.i("BTstate", "send: " + "T=111");
+
+            Log.i("BTstate", "reply: " + reply);
             if (reply.contains("T=111")) {
                 device_status_var = 1;
                 Bluetoothfragment.set_device_status(1);
