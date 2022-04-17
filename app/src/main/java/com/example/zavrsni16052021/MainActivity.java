@@ -364,11 +364,34 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                     Bluetoothfragment.set_device_status(1);
                     ignore_status_var = 0;
                     Bluetoothfragment.set_ignore_status(0);
+                    Toast.makeText(this, "Uređaj je u normalnom načinu rada", Toast.LENGTH_SHORT).show();
                 } else if (reply.contains("T=222")) {
 
                     device_status_var = 1;
                     ignore_status_var = 1;
                     Bluetoothfragment.set_ignore_status(1);
+                    String sec_left = "";
+                    String sec_left_text = "";
+                    int r = reply.indexOf("T=222,");
+                    try {
+                        sec_left = reply.substring(r + 6, r + 12);
+                        Log.i("BTstate", sec_left + "yoo");
+                        int sec_left_int = Integer.parseInt(sec_left);
+                        if(sec_left_int<5*60){
+                            sec_left_text = "još " + sec_left_int + " sekundi";
+                        }
+                        else if(sec_left_int<5*60*60){
+                            sec_left_text = "još " + sec_left_int/60 + " minuta";
+                        }
+                        else{
+                            sec_left_text = "još " + sec_left_int/60/60 + " sati";
+
+                        }
+
+                    }
+                    catch(Exception ee){ }
+                    device_status_var = 1;
+                    Toast.makeText(this, "Uređaj je u načinu rada ignoriranja\n" + (sec_left_text.length()==0? "":sec_left_text), Toast.LENGTH_SHORT).show();
                 } else {
                     device_status_var = 0;
                     Bluetoothfragment.set_device_status(0);
@@ -389,8 +412,27 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
                 Log.i("BTstate", "send: " + mess);
                 Log.i("BTstate", "reply: " + reply);
                 if (reply.contains("T=222")) {
-                    device_status_var = 1;
+                    String sec_left = "";
+                    String sec_left_text = "";
+                    int r = reply.indexOf("T=222,");
+                    try {
+                        sec_left = reply.substring(r + 6, r + 12);
+                        int sec_left_int = Integer.parseInt(sec_left);
+                        if(sec_left_int<5*60){
+                            sec_left_text = "još " + sec_left_int + " sekundi";
+                        }
+                        else if(sec_left_int<5*60*60){
+                            sec_left_text = "još " + sec_left_int/60 + " minuta";
+                        }
+                        else{
+                            sec_left_text = "još " + sec_left_int/60/60 + " sati";
 
+                        }
+
+                    }
+                    catch(Exception ee){ }
+                    device_status_var = 1;
+                    Toast.makeText(this, "Uređaj je u načinu rada ignoriranja\n" + (sec_left_text.length()==0? "":sec_left_text), Toast.LENGTH_SHORT).show();
                     ignore_status_var = 1;
                     Bluetoothfragment.set_ignore_status(1);
                 } else {
@@ -406,6 +448,8 @@ public class MainActivity extends AppCompatActivity implements Login_interface, 
 
             Log.i("BTstate", "reply: " + reply);
             if (reply.contains("T=111")) {
+                Toast.makeText(this, "Uređaj je u normalnom načinu rada", Toast.LENGTH_SHORT).show();
+
                 device_status_var = 1;
                 Bluetoothfragment.set_device_status(1);
                 ignore_status_var = 0;
