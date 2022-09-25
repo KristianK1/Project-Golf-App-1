@@ -1,14 +1,12 @@
 package com.example.zavrsni16052021;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +20,12 @@ import android.widget.ToggleButton;
 
 public class SettingsFragment extends Fragment {
     private Spinner history_select;
-    private String[] history_modes = {"10 min", "20 min", "30 min", "1 hour", "2 hours", "3 hours", "6 hours", "12 hours", "1 day", "2 days", "5 days", "10 days", "30 days","90 days"};
+    private final String[] history_modes = {"10 min", "20 min", "30 min", "1 hour", "2 hours", "3 hours", "6 hours", "12 hours", "1 day", "2 days", "5 days", "10 days", "30 days","90 days"};
     public String saved_history;
     public boolean begin_toggle_state;
     private AdapterView history_spinner;
     ArrayAdapter<String> adapter_history;
-//
+
     private TextView logout;
     private logout logout_interface;
 
@@ -52,7 +50,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        history_select=(Spinner) getView().findViewById(R.id.history_spinner);
+        history_select= getView().findViewById(R.id.history_spinner);
         history_spinner=view.findViewById(R.id.history_spinner);
 
         adapter_history = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, history_modes);
@@ -67,8 +65,8 @@ public class SettingsFragment extends Fragment {
 
     }
 
-    public void starting_history_string(String histry){
-        history_select.setSelection(getIndex(history_select, histry));
+    public void starting_history_string(String history){
+        history_select.setSelection(getIndex(history_select, history));
     }
     private int getIndex(Spinner spinner, String myString){
         for (int i=0;i<spinner.getCount();i++){
