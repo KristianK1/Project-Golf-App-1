@@ -1,4 +1,4 @@
-package com.example.zavrsni16052021;
+package hr.kristiankliskovic.ProjectGolf1.zavrsni16052021;
 
 public class Creds {
     private String username;

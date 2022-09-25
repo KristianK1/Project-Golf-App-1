@@ -1,4 +1,4 @@
-package com.example.zavrsni16052021;
+package hr.kristiankliskovic.ProjectGolf1.zavrsni16052021;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.zavrsni16052021.R;
 
 public class BluetoothFragment extends Fragment {
     private int device_status_var = 0, ignore_status_var = 0;

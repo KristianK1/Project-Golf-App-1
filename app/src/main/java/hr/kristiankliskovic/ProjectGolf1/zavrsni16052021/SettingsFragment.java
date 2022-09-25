@@ -1,4 +1,4 @@
-package com.example.zavrsni16052021;
+package hr.kristiankliskovic.ProjectGolf1.zavrsni16052021;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.example.zavrsni16052021.R;
 
 public class SettingsFragment extends Fragment {
     private Spinner history_select;

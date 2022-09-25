@@ -1,6 +1,5 @@
-package com.example.zavrsni16052021;
+package hr.kristiankliskovic.ProjectGolf1.zavrsni16052021;
 
-import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,14 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.service.autofill.UserData;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.autofill.AutofillManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.zavrsni16052021.R;
 
 public class Login extends Fragment {
     EditText CH_ID_et;

@@ -1,4 +1,4 @@
-package com.example.zavrsni16052021;
+package hr.kristiankliskovic.ProjectGolf1.zavrsni16052021;
 
 
 import android.os.Build;

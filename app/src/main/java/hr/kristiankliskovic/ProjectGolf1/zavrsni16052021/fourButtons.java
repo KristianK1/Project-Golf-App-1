@@ -1,4 +1,4 @@
-package com.example.zavrsni16052021;
+package hr.kristiankliskovic.ProjectGolf1.zavrsni16052021;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.zavrsni16052021.R;
 
 public class fourButtons extends Fragment {
     private Button btn1, btn2, btn3, btn4;

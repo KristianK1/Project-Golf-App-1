@@ -1,4 +1,4 @@
-package com.example.zavrsni16052021;
+package hr.kristiankliskovic.ProjectGolf1.zavrsni16052021;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,14 +16,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
-import android.service.autofill.UserData;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.autofill.AutofillManager;
 import android.widget.Toast;
 
+import com.example.zavrsni16052021.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,7 +29,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
